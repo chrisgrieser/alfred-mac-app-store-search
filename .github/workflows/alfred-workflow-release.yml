@@ -1,0 +1,53 @@
+name: Alfred Workflow Release
+
+on:
+  push:
+    tags: ["*"]
+
+env:
+  WORKFLOW_NAME: ${{ github.event.repository.name }}
+
+#───────────────────────────────────────────────────────────────────────────────
+
+jobs:
+  build:
+    runs-on: macos-latest
+    permissions: { contents: write }
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build .alfredworkflow
+        run: |
+          zip --recurse-paths --symlinks "${{ env.WORKFLOW_NAME }}.alfredworkflow" . \
+            --exclude "README.md" ".git*" "Justfile" ".build-and-release.sh" \
+            ".rsync-exclude" ".editorconfig" ".typos.toml" ".markdownlint.*"
+
+      - name: Create release notes
+        id: release_notes
+        uses: mikepenz/release-changelog-builder-action@v5
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        with:
+          mode: "COMMIT"
+          configurationJson: |
+            {
+              "label_extractor": [{
+                "pattern": "^(\\w+)(\\([\\w\\-\\.]+\\))?(!)?: .+",
+                "on_property": "title",
+                "target": "$1"
+              }],
+              "categories": [
+                { "title": "## 🚀 New features", "labels": ["feat", "improv"] },
+                { "title": "## 🛠️ Fixes", "labels": ["fix"] },
+                { "title": "## 👾 Other", "labels": [] }
+              ],
+              "ignore_labels": ["release", "bump"]
+            }
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: ${{ steps.release_notes.outputs.changelog }}
+          files: ${{ env.WORKFLOW_NAME }}.alfredworkflow
