@@ -1,4 +1,4 @@
-# Mac App Store search for Alfred
+# Mac App Store Search for Alfred
 ![GitHub downloads](https://img.shields.io/github/downloads/chrisgrieser/alfred-mac-app-store-search/total?label=GitHub%20downloads&style=plastic&logo=github)
 <!-- ![Alfred Gallery downloads](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fchrisgrieser%2F.config%2Frefs%2Fheads%2Fmain%2FAlfred.alfredpreferences%2Falfred-workflow-download-count.yaml&style=plastic&logo=alfred&label=Gallery%20downloads&color=%235C1F87&query=alfred-mac-app-store-search)-->
 ![Latest release](https://img.shields.io/github/v/release/chrisgrieser/alfred-mac-app-store-search?label=Latest%20release&style=plastic)
