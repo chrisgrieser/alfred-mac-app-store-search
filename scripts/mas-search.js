@@ -6,8 +6,8 @@ standardApp.includeStandardAdditions = true;
 
 /** @param {string} url @return {string} */
 function httpRequest(url) {
-	const queryURL = $.NSURL.URLWithString(url);
-	const data = $.NSData.dataWithContentsOfURL(queryURL);
+	const queryUrl = $.NSURL.URLWithString(url);
+	const data = $.NSData.dataWithContentsOfURL(queryUrl);
 	return $.NSString.alloc.initWithDataEncoding(data, $.NSUTF8StringEncoding).js;
 }
 
@@ -36,13 +36,13 @@ function httpRequest(url) {
 /** @param {string|Date} date @return {string} relative date */
 function relativeDate(date) {
 	const absDate = typeof date === "string" ? new Date(date) : date;
-	const deltaHours = (Date.now() - +absDate) / 1000 / 60 / 60;
+	const deltaHours = (Date.now() - absDate.getTime()) / 1000 / 60 / 60;
 	/** @type {"year"|"month"|"week"|"day"|"hour"} */
 	let unit;
 	let delta;
 	if (deltaHours < 24) {
 		unit = "hour";
-		delta = deltaHours;
+		delta = Math.floor(deltaHours);
 	} else if (deltaHours < 24 * 7) {
 		unit = "day";
 		delta = Math.floor(deltaHours / 24);
@@ -107,13 +107,15 @@ function run(argv) {
 
 	// CAVEAT this assumes that the device locale is also the app store locale.
 	// (This is almost always the case.)
-	const regionCode = ObjC.unwrap($.NSLocale.currentLocale.objectForKey($.NSLocaleCountryCode));
+	const regionCode = ObjC.unwrap(
+		$.NSLocale.currentLocale.objectForKey($.NSLocaleCountryCode),
+	).toLowerCase();
 	console.log("Region Code:", regionCode); // e.g., "DE", "US"
 
-	const apiURL =
+	const apiUrl =
 		"https://itunes.apple.com/search?entity=macSoftware" +
 		`&country=${regionCode}&limit=${limit}&term=${encodeURIComponent(query)}`;
-	const result = JSON.parse(httpRequest(apiURL))?.results;
+	const result = JSON.parse(httpRequest(apiUrl))?.results;
 	if (!result) return JSON.stringify({ items: [{ title: "Error: No results", valid: false }] });
 
 	const installedApps = standardApp
