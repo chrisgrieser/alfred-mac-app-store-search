@@ -10,7 +10,8 @@ Search apps available in the Mac App Store.
 ## Usage
 Search the Mac App Store for apps via the keyword `mas`.
 - <kbd>⏎</kbd> Open the result in `App Store.app`.
-- <kbd>⌘⏎</kbd> Open the developer's website, if available.
+- <kbd>⌘⏎</kbd> Open the result in the browser.
+- <kbd>⇧⏎</kbd> Open the developer's website, if available.
 - <kbd>⌥⏎</kbd> Copy the App Store URL to your clipboard.
 - <kbd>⌃⏎</kbd> Copy app's bundle ID to your clipboard.
 - <kbd>⌘Y</kbd> Quick Look a screenshot of the app, if available.
