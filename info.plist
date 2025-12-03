@@ -55,7 +55,7 @@
 				<key>modifiers</key>
 				<integer>1048576</integer>
 				<key>modifiersubtext</key>
-				<string>⌘: Open in browser</string>
+				<string>⌘: Open developer website</string>
 				<key>vitoclose</key>
 				<false/>
 			</dict>
@@ -65,7 +65,7 @@
 				<key>modifiers</key>
 				<integer>131072</integer>
 				<key>modifiersubtext</key>
-				<string>⇧: Open developer website</string>
+				<string>⇧: Open in browser</string>
 				<key>vitoclose</key>
 				<false/>
 			</dict>
